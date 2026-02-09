@@ -1,6 +1,12 @@
 \input{./lib/hw-setup/tex/HWSetup}
 \input{./lib/hw-setup/tex/EngBindings}
 
+\fancyhead[C]{}
+\fancyhead[R]{\hmwkClass\ (\hmwkClassInstructor,\ \hmwkClassTime): \hmwkTitle}
+\fancyheadwidth[L]{0.5\headwidth}
+\fancyheadwidth[C]{0.0\headwidth}
+\fancyheadwidth[R]{0.5\headwidth}
+
 %
 % Homework Details
 %   - Title
@@ -13,14 +19,14 @@
 %   - Author
 %
 
-\hwkTitle{HW00}
-\hwkSubTitle{Homework Template}
-\hwkDueDate{2026-01-01}
+\hwkTitle{Lab01}
+\hwkSubTitle{Flow Over Cylinder}
+\hwkDueDate{2026-02-13}
 \hwkDueTime{11:59:00}
-\hwkClass{Course - Section}
-\hwkClassTime{09:00:00}
-\hwkInstructor{Instuctor}
-\hwkAuthor{Vai Srivastava}
+\hwkClass{ENAE464 - 0202}
+\hwkClassTime{14:00:00}
+\hwkInstructor{Dr. Silbaugh}
+\hwkAuthor{Mikołaj Kostrzewa \& Vai Srivastava}
 \hwkCompletionDate{\today}
 
 \begin{document}
@@ -29,44 +35,35 @@
 
 \pagebreak
 
-\begin{hwkProblem}{1}{Parts \textit{(\# pts.)}} \label{hwk:p01}
+\section{Theory Recap} \label{sec:theory}
 
-	\begin{enumerate}[label=\alph*.]
-		\item \label{hwk:p01a} Instructions
-		\item \label{hwk:p01b} Instructions
-	\end{enumerate}
+% TODO: Recap of Inviscid Flow Theory for a 2D Cylinder
+% Summarize the inviscid flow theory for flow over a 2D cylinder. Be sure to identify all key assumptions and concepts. Derive the coefficient of pressure for the cylinder surface. You may follow the conformal mapping approach outlined in lecture, or summarize the approach given in Anderson’s Fundamentals of Flight (Chapter 3). You only need to show key steps. Routine algebraic manipulations can be omitted and/or summarized in words.
 
-	\hwkSol{} \label{hwk:s01}
+\section{Operating Conditions} \label{sec:conditions}
 
-	\hwkPart{} \label{hwk:s01a}
+% TODO: tab: ambient condition measurements
+% A tabulation of operating conditions for the experiment, including ambient room temperature, and pressure.
 
-	Answer
+% TODO: calc: ambient air density
+% Calculation of ambient air density from room temperature and pressure.
 
-	\hwkPart{} \label{hwk:s01b}
+\section{Measurements} \label{sec:measurements}
 
-	Answer
+% TODO: tab: pressure measurements
+% A table of the measured relative pressure, \(P-P_{\infty}\), and the corresponding pressure coefficient, \(C_p=2\left(P-P_{\infty}\right) /\left(\rho U_{\infty}^2\right)\), versus angular position (P versus \(\left.\theta\right)\). The quantity \(P-P_{\infty}\) is the pressure reading on the surface of the cylinder relative to the freestream pressure upstream of the cylinder. This quantity is directly given by the differential pressure transducer. \(U_{\infty}\) is the mean freestream velocity, which is obtained using the pitot-static tube (see next item).
 
-\end{hwkProblem}
+% TODO: explanation of conversion method for pressure reading to actual values
 
-\begin{hwkProblem}{2}{Code \textit{(\# pts.)}} \label{hwk:p02}
+\section{Results} \label{sec:results}
 
-	Instructions
+% TODO: calc: mean wind tunnel velocity
+% Calculation of the mean wind tunnel velocity used for the experiment based on the pressure reading from the pitot-static tube in the wind tunnel.
 
-	\hwkSol{} \label{hwk:s02}
+% TODO: fig: pressure coefficient vs angle of attack
+% A plot of \(C_p\) vs \(\theta\) from the experiment, plotted simultaneous (on the same graph) with the pressure coefficient that is given by inviscid theory. Characterize any observed discrepancies, and explain the cause of these differences. How does your plot compare with published results?
 
-	\begin{figure}[H] \label{fig:s02}
-		\begin{center}
-			\includegraphics[width=0.95\textwidth]{./outputs/figures/s02.png}
-		\end{center}
-		\caption{Example}
-	\end{figure}
-
-	\inputminted{python}{./outputs/text/s02.txt}
-
-	\hwkCode{} \label{code:s02}
-
-	See the \href{https://www.github.com/vaisriv/enaeXXX-hwXX/blob/main/src/hwXX.py#L10}{Python code} for this problem.
-
-\end{hwkProblem}
+% TODO: calc: drag coefficient
+% Compute coefficient of drag using measured surface pressure. Does this agree with theoretical value? If not, explain why.
 
 \end{document}
