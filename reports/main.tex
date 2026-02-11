@@ -83,6 +83,56 @@ In general, the letter should be addressed to the person or organization that re
 
 \section{Introduction} \label{sec:introduction}
 
+For the inviscid-flow model used in this lab, we assume a potential-flow field that is:
+\begin{itemize}
+    \item \textbf{Incompressible (continuity):} \(\nabla \cdot \vec{V} = 0\).
+    \item \textbf{Irrotational:} \(\nabla \times \vec{V} = 0\).
+\end{itemize}
+If \(\nabla \times \vec{V} = 0\), then a \textit{velocity potential} \(\phi\) exists such that
+\(\vec{V}=\nabla \phi\). Substituting into continuity gives Laplace's equation:
+\[
+    \nabla^2 \phi = 0
+    \qquad \left(\text{i.e., } \frac{\partial^2 \phi}{\partial x^2}
+    + \frac{\partial^2 \phi}{\partial y^2}
+    + \frac{\partial^2 \phi}{\partial z^2} = 0 \right).
+\]
+
+In order to model flow over a 2D cylinder, we use an approach presented in Anderson's Fundamentals of 
+Aerodynamics, which uses a superposition of a uniform flow and a doublet flow, as presented in the figure below:
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.95\linewidth]{../assets/flow_superposition.png}
+    \caption{Superposition of uniform flow and a doublet to model nonlifting potential flow over a circular cylinder.}
+    \label{fig:flow_superposition}
+\end{figure}
+
+In polar coordinates \((r,\theta)\), the stream function and velocity potential for both the uniform flow and the doublet are given by:
+\begin{align}
+    \phi_U &= V_{\infty} r \cos\theta
+    && \text{(velocity potential: uniform flow)} \\
+    \psi_U &= V_{\infty} r \sin\theta
+    && \text{(stream function: uniform flow)} \\
+    \phi_D &= \frac{\kappa}{2\pi}\frac{\cos\theta}{r}
+    && \text{(velocity potential: doublet)} \\
+    \psi_D &= -\frac{\kappa}{2\pi}\frac{\sin\theta}{r}
+    && \text{(stream function: doublet)}
+\end{align}
+where \(V_{\infty}\) is the freestream speed and \(\kappa\) is the doublet strength.
+
+Superposing the uniform flow and doublet stream functions gives
+\begin{align}
+    \psi &= \psi_U + \psi_D \nonumber \\
+    &= V_{\infty} r \sin\theta - \frac{\kappa}{2\pi}\frac{\sin\theta}{r} \nonumber \\
+    &= V_{\infty} r \sin\theta \left(1 - \frac{R^2}{r^2}\right),
+\end{align}
+where the cylinder radius is defined by
+\[
+    R^2 \equiv \frac{\kappa}{2\pi V_{\infty}}.
+\]
+
+
+
 % TODO: Recap of Inviscid Flow Theory for a 2D Cylinder
 % Summarize the inviscid flow theory for flow over a 2D cylinder. Be sure to identify all key assumptions and concepts. Derive the coefficient of pressure for the cylinder surface. You may follow the conformal mapping approach outlined in lecture, or summarize the approach given in Anderson’s Fundamentals of Flight (Chapter 3). You only need to show key steps. Routine algebraic manipulations can be omitted and/or summarized in words.
 
