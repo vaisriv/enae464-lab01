@@ -49,6 +49,23 @@ perSystem.devshell.mkShell {
                 '';
         }
         {
+            name = "ltxw";
+            category = "[submission]";
+            help = "compile (and watch) submission latex doc";
+            command =
+                # bash
+                ''
+                    CYAN="\e[0;36m"
+                    NC="\e[0m"
+
+                    cd $(git rev-parse --show-toplevel)
+
+                    echo -e -n "$CYAN"
+                    echo -e "watching latex document for $(basename $(pwd)):$NC"
+                    latexmk -pvc
+                '';
+        }
+        {
             name = "ltxc";
             category = "[submission]";
             help = "clean-compile submission latex doc";
@@ -88,5 +105,8 @@ perSystem.devshell.mkShell {
                 scipy
                 cartopy
             ]))
+
+        # font
+        pkgs.nerd-fonts.iosevka-term
     ];
 }
