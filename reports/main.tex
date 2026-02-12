@@ -242,7 +242,26 @@ Thus, \textbf{the ambient air density during the experiment is}:
 % TODO: calc: drag coefficient
 % Compute coefficient of drag using measured surface pressure. Does this agree with theoretical value? If not, explain why.
 
+The theoretical value of drag coefficient is 0 due to the fact that with the assumption of inviscid flow  $c_f = 0$ and symmetry of the cylinder shape, and the symmetry of the flow around it which results in equal pressure on opposing sides canceling each other out. 
+
+Performing numerical analysis using the equations from the lecture:
+
+\begin{align*}
+        C_D = \frac{D}{\rho_{\infty}} \\
+        D = R \int_{0}^{2 \pi} P \cos{\theta}d\theta
+\end{align*}
+
+Due to cylinder symmetry:
+\begin{equation*}
+        D = R \int_{0}^{2 \pi} P \cos{\theta}d\theta = 2 R \int_{0}^{\pi} P \cos{\theta}d\theta
+\end{equation*}
+
+To numerically calculate the integral, we used the trapezoidal approximation, and the results of $C_D$ vs. $\theta$ are shown in the figure below:
+
+
 \section{Analysis and Discussion} \label{sec:analysis}
+
+As can be seen in the figure, the actual coefficient of drag is not zero due to the viscosity of the air and flow detachment.
 
 \subsection{Data Conversion} \label{sec:analysis/conversion}
 
