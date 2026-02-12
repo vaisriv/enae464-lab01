@@ -171,6 +171,54 @@ The pressure coefficient is given by:
 \section{Results} \label{sec:results}
 
 \subsection{Operating Conditions} \label{sec:results/conditions}
+\begin{table}[H]
+    \centering
+    \caption{Ambient Room Conditions during Experiment}
+    \label{tab:ambient-conditions}
+    \begin{tabular}{|l|c|c|}
+        \hline
+        Quantity             & Value                & Uncertainty \\ \hline \hline
+        Room Temperature, $T$ & $25~^{\circ}\mathrm{C}$            & $\pm 0.5~^{\circ}\mathrm{C}$ \\
+        Room Pressure, $P$   & $1009.0~\mathrm{hPa}$ & --          \\ \hline
+    \end{tabular}
+\end{table}
+
+
+The density of air (\(\rho\)) can be calculated using the Ideal Gas Law:
+\[
+    \rho = \frac{P}{R T}
+\]
+where:
+\begin{itemize}
+    \item \(P\) is the absolute pressure (in SI units: Pa)
+    \item \(T\) is the absolute temperature (in Kelvin)
+    \item \(R\) is the specific gas constant for dry air, \(R = 287.05~\mathrm{J/(kg\cdot K)}\)
+\end{itemize}
+
+Given measurements:
+\begin{align*}
+    P      &= 1009.0~\mathrm{hPa} = 100900~\mathrm{Pa} \\
+    T      &= 25~^{\circ}\mathrm{C} = 25 + 273.15 = 298.15~\mathrm{K} \\
+    R      &= 287.05~\mathrm{J/(kg\cdot K)}
+\end{align*}
+
+\[
+    \rho = \frac{100900~\mathrm{Pa}}{287.05~\mathrm{J/(kg\cdot K)} \times 298.15~\mathrm{K}}
+\]
+
+Calculate:
+\begin{align*}
+    \rho &= \frac{100900}{287.05 \times 298.15} \\
+         &= \frac{100900}{85542.5} \\
+         &\approx 1.18~\mathrm{kg/m^3}
+\end{align*}
+
+Thus, \textbf{the ambient air density during the experiment is}:
+\[
+    \boxed{\rho = 1.18~\mathrm{kg/m^3}}
+\]
+
+
 
 % TODO: tab: ambient condition measurements
 % A tabulation of operating conditions for the experiment, including ambient room temperature, and pressure.
