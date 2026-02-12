@@ -213,11 +213,26 @@ The pressure coefficient is given by:
 
 \section{Appendices} \label{sec:appendices}
 
-\subsection{Data} \label{sec:appendicies/data}
+\subsection{Data} \label{sec:appendices/data}
 
-\mintinline{bash}{./data/pressure_vs_alpha.csv}
-\inputminted{text}{../data/pressure_vs_alpha.csv}
+\begin{table}[H]
+        \begin{center}
+                \mintinline{bash}{./data/pressure_vs_alpha.csv} \\
+                \begin{tabular}[c]{|r|l|c|c|c|}\hline
+                        & \( \alpha \, \left[\unit{\deg}\right] \) & \( \mathrm{P}_{\infty} \, \left[\unit{\cm}\right] \) & \( \mathrm{P}_{0} \, \left[\unit{\cm}\right] \) & \( \mathrm{P} \, \left[\unit{\cm}\right] \) \\ \hline \hline
+                        \csvreader[late after line = \\ \hline]{../data/pressure_vs_alpha.csv}{}{
+                                {\setpadnum{2}\tt\scriptsize\padnum{\thecsvrow}} &
+                                \csvcoli &
+                                \csvcolii &
+                                \csvcoliii &
+                                \csvcoliv
+                        }
+                \end{tabular}
+        \end{center}
+        \caption{Raw Measurements of Pressure Taps vs. Angle of Attack}
+        \label{tab:data/pressure}
+\end{table}
 
-\subsection{Code} \label{sec:appendicies/code}
+\subsection{Code} \label{sec:appendices/code}
 
 \end{document}
