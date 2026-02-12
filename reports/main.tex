@@ -11,6 +11,8 @@
 \fancyheadwidth[C]{0.0\headwidth}
 \fancyheadwidth[R]{0.5\headwidth}
 
+\hypersetup{hidelinks}
+
 %
 % Homework Details
 %   - Title
@@ -94,13 +96,12 @@ If \(\nabla \times \vec{V} = 0\), then a \textit{velocity potential} \(\phi\) ex
     + \frac{\partial^2 \phi}{\partial z^2} = 0 \right).
 \]
 
-In order to model flow over a 2D cylinder, we use an approach presented in Anderson's Fundamentals of 
-Aerodynamics, which uses a superposition of a uniform flow and a doublet flow, as presented in the figure below:
+In order to model flow over a 2D cylinder, we use an approach presented in \cite{danderson2023fundamentals}, which uses a superposition of a uniform flow and a doublet flow, as presented in the figure below:
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.95\linewidth]{../assets/flow_superposition.png}
-    \caption{Superposition of uniform flow and a doublet to model nonlifting potential flow over a circular cylinder.}
+    \includegraphics[width=0.65\linewidth]{../assets/flow_superposition.png}
+    \caption{Superposition of uniform flow and a doublet to model nonlifting potential flow over a circular cylinder \cite{danderson2023fundamentals}.}
     \label{fig:flow_superposition}
 \end{figure}
 
