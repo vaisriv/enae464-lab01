@@ -242,7 +242,7 @@ Thus, \textbf{the ambient air density during the experiment is}:
 % TODO: calc: drag coefficient
 % Compute coefficient of drag using measured surface pressure. Does this agree with theoretical value? If not, explain why.
 
-The theoretical value of drag coefficient is 0 due to the fact that with the assumption of inviscid flow  $c_f = 0$ and symmetry of the cylinder shape, and the symmetry of the flow around it which results in equal pressure on opposing sides canceling each other out. 
+The theoretically predicted drag coefficient for a cylinder in inviscid flow is zero. This result arises because, under the assumption of inviscid (frictionless) flow, the skin friction coefficient $c_f$ is zero, and the symmetry of both the cylinder and the flow ensures that the pressure distribution is identical on the front and back surfaces. As a result, the opposing pressure forces cancel each other, leading to no net drag. This phenomenon is known as \textbf{D'Alembert's Paradox}.
 
 Performing numerical analysis using the equations from the lecture:
 
@@ -261,13 +261,13 @@ To numerically calculate the integral, we used the trapezoidal approximation, an
 
 \section{Analysis and Discussion} \label{sec:analysis}
 
-As can be seen in the figure, the actual coefficient of drag is not zero due to the viscosity of the air and flow detachment.
 
 \subsection{Data Conversion} \label{sec:analysis/conversion}
 
 % TODO: explanation of conversion method for pressure reading to actual values
 
 \subsection{Interpretation} \label{sec:analysis/interpretation}
+As can be seen in the figure, the actual coefficient of drag is not zero. This is due to the fact that in real world air is viscous and it's coefficient of friction $c_f \neq 0$. This combined with potential flow detachment leads to a non-zero drag coefficient.
 
 % TODO: compare with expected values based on theory
 % pressure & drag coefficients
