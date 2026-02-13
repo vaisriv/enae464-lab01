@@ -6,24 +6,23 @@
 \input{../lib/hw-setup/tex/EngBindings}
 
 \fancyhead[C]{}
-\fancyhead[R]{\hmwkClass\ (\hmwkClassInstructor,\ \hmwkClassTime): \hmwkTitle}
+\fancyhead[R]{\hyperlink{tableofcontents}{\hmwkClass\ (\hmwkClassInstructor,\ \hmwkClassTime): \hmwkTitle}}
 \fancyheadwidth[L]{0.5\headwidth}
 \fancyheadwidth[C]{0.0\headwidth}
 \fancyheadwidth[R]{0.5\headwidth}
 
-\hypersetup{hidelinks}
-
-%
-% Homework Details
-%   - Title
-%   - Subtitle
-%   - Due date
-%   - Due time
-%   - Course
-%   - Section/Time
-%   - Instructor
-%   - Author
-%
+%%%%%%%%%%%%%%%%%%%%%%%%%
+% Homework Details      %
+% - Title               %
+% - Subtitle            %
+% - Due Date            %
+% - Due Time            %
+% - Course              %
+% - Section Time        %
+% - Instructor          %
+% - Author              %
+% - Submission Time     %
+%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \hwkTitle{Lab01}
 \hwkSubTitle{Pressure Measurements of Inviscid Flow over Cylinder}
@@ -35,14 +34,14 @@
 \hwkAuthor{Mikołaj Kostrzewa \& Vai Srivastava}
 \hwkCompletionDate{
         Experiment Performed: \DTMdate{2026-02-06}\\
-        Report Submitted: \today
+        Report Submitted: \DTMtoday
 }
 
 \addbibresource{./references.bib}
 
 \begin{document}
 
-\maketitle
+\hypertarget{titlepage}{\maketitle}
 
 \pagebreak
 
@@ -50,24 +49,39 @@
 % Letter of Transmittal %
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
-% TODO: write letter (address to silbaugh?)
-% This is a brief letter accompanying a report indicating that the report is enclosed or attached. In some cases, the letter is put at the beginning of the report following the title page rather than on top of it. It simply is up to your preference whether to make the letter a part of your report by putting it behind the title page or to separate it from the main report by placing it on top of the title page. While it serves not much purpose other than officially turning the report over to the reader, it is a professional and courteous way to present the report.
-% In general, the letter should be addressed to the person or organization that requested the information contained in your report. For the purpose of this course, however, your letter can be addressed to the laboratory professor whose experiment you just have completed.
+\thispagestyle{empty}
 
-This is a brief letter accompanying a report indicating that the report is enclosed or attached. In some cases, the letter is put at the beginning of the report following the title page rather than on top of it. It simply is up to your preference whether to make the letter a part of your report by putting it behind the title page or to separate it from the main report by placing it on top of the title page. While it serves not much purpose other than officially turning the report over to the reader, it is a professional and courteous way to present the report.
+\DTMtoday
 
-In general, the letter should be addressed to the person or organization that requested the information contained in your report. For the purpose of this course, however, your letter can be addressed to the laboratory professor whose experiment you just have completed.
+\vspace{5.0ex}
+
+Enclosed is the technical report for the Flow Over Cylinder laboratory experiment. This report presents the experimental methodology, results, and analysis of flow characteristics observed around a circular cylinder, including pressure distribution, drag coefficient determination, and comparison with theoretical predictions.
+
+Please feel free to contact us with any questions regarding the contents of this report.
+
+\vspace{5.0ex}
+
+Respectfully,
+
+Mikołaj Kostrzewa \& Vai Srivastava
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+% Table of Contents     %
+%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \pagebreak
 
 \thispagestyle{empty}
-\tableofcontents
+\hypertarget{tableofcontents}{\tableofcontents}
 
 \renewcommand{\listfigurename}{Figures}
 \listoffigures
 
 \renewcommand{\listtablename}{Tables}
 \listoftables
+
+\renewcommand{\listlistingname}{Listings}
+\listoflistings
 
 \newpage
 \pagenumbering{arabic}
@@ -78,7 +92,8 @@ In general, the letter should be addressed to the person or organization that re
 
 \section{Abstract} \label{sec:abstract}
 
-\section{Nomenclature} \label{sec:nomenclature}
+% FIXME: write abstract
+\lipsum[1]
 
 \section{Introduction} \label{sec:introduction}
 
@@ -89,19 +104,19 @@ For the inviscid-flow model used in this lab, we assume a potential-flow field t
 \end{itemize}
 If \(\nabla \times \vec{V} = 0\), then a \textit{velocity potential} \(\phi\) exists such that
 \(\vec{V}=\nabla \phi\). Substituting into continuity gives Laplace's equation:
-\[
+\begin{equation}
     \nabla^2 \phi = 0
     \qquad \left(\text{i.e., } \frac{\partial^2 \phi}{\partial x^2}
     + \frac{\partial^2 \phi}{\partial y^2}
     + \frac{\partial^2 \phi}{\partial z^2} = 0 \right).
-\]
+\end{equation}
 
-In order to model flow over a 2D cylinder, we use an approach presented in \cite{danderson2023fundamentals}, which uses a superposition of a uniform flow and a doublet flow, as presented in the figure below:
+In order to model flow over a 2D cylinder, we use an approach presented in \cite{danderson2023fundamentals}, which uses a superposition of a uniform flow and a doublet flow, as presented in the figure below \cite[Fig.~3.26]{danderson2023fundamentals}:
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.65\linewidth]{../assets/flow_superposition.png}
-    \caption{Superposition of uniform flow and a doublet to model nonlifting potential flow over a circular cylinder \cite{danderson2023fundamentals}.}
+    \caption{Superposition of uniform flow and a doublet to model nonlifting potential flow over a circular cylinder.}
     \label{fig:flow_superposition}
 \end{figure}
 
@@ -120,23 +135,22 @@ where \(V_{\infty}\) is the freestream speed and \(\kappa\) is the doublet stren
 
 Superposing the uniform flow and doublet stream functions gives
 \begin{align}
-    \psi &= \psi_U + \psi_D \nonumber \\
-    &= V_{\infty} r \sin\theta - \frac{\kappa}{2\pi}\frac{\sin\theta}{r} \nonumber \\
+    \psi &= \psi_U + \psi_D \\
+    &= V_{\infty} r \sin\theta - \frac{\kappa}{2\pi}\frac{\sin\theta}{r} \\
     &= V_{\infty} r \sin\theta \left(1 - \frac{R^2}{r^2}\right),
 \end{align}
 where the cylinder radius is defined by
-\[
+\begin{equation}
     R^2 \equiv \frac{\kappa}{2\pi V_{\infty}}.
-\]
+\end{equation}
 
 The corresponding velocity field in polar coordinates follows from the stream function relations
 \(V_r=\frac{1}{r}\frac{\partial \psi}{\partial \theta}\) and \(V_{\theta}=-\frac{\partial \psi}{\partial r}\):
 \begin{align}
-    V_r &= \frac{1}{r}\frac{\partial \psi}{\partial \theta}
-    = \frac{1}{r}\left(V_{\infty} r \cos\theta\right)\left(1-\frac{R^2}{r^2}\right)
-    = \left(1-\frac{R^2}{r^2}\right)V_{\infty}\cos\theta, \\
-    V_{\theta} &= -\frac{\partial \psi}{\partial r}
-    = -\left(1+\frac{R^2}{r^2}\right)V_{\infty}\sin\theta.
+    V_r &= \frac{1}{r}\frac{\partial \psi}{\partial \theta} = \frac{1}{r}\left(V_{\infty} r \cos\theta\right)\left(1-\frac{R^2}{r^2}\right) \\
+        &= \left(1-\frac{R^2}{r^2}\right)V_{\infty}\cos\theta, \\
+    V_{\theta} &= -\frac{\partial \psi}{\partial r} \\
+               &= -\left(1+\frac{R^2}{r^2}\right)V_{\infty}\sin\theta.
 \end{align}
 
 At the surface of the cylinder, \(r = R\), the velocity field is:
@@ -146,94 +160,197 @@ At the surface of the cylinder, \(r = R\), the velocity field is:
 \end{align}
 
 This aligns with the assumption that the velocity normal to the stationary surface must be zero, and due to polar coordinates, the velocity normal to the surface is given by \(V_{r}\).
-Since $V_{\theta}$ is perpendicular to the surface, due to construction of the coordinate system, it's equivalent to a tangential velocity, and since normal velocity is zero, $V = V_{\theta} = V_{\infty} \sin\theta$.
+Since \(V_{\theta}\) is perpendicular to the surface, due to construction of the coordinate system, it's equivalent to a tangential velocity, and since normal velocity is zero, \(V = V_{\theta} = V_{\infty} \sin\theta\).
 
 The pressure coefficient is given by:
-\[
-    C_p = 1 - \frac{V^2}{V_{\infty}^2}
-\]
-
 \begin{align}
-        V = -2V_{\infty}\sin\theta\\
-        \frac{V^2}{V_{\infty}^2} = 4\oldsin^2\theta\\
-        \boxed{C_p = 1 - \frac{V^2}{V_{\infty}^2} =1 - 4\oldsin^2\theta}
+    C_p &= 1 - \frac{V^2}{V_{\infty}^2} \\
+    V &= -2V_{\infty}\sin\theta \\
+    \frac{V^2}{V_{\infty}^2} &= 4\oldsin^2\theta
 \end{align}
-
-% TODO: Recap of Inviscid Flow Theory for a 2D Cylinder
-% Summarize the inviscid flow theory for flow over a 2D cylinder. Be sure to identify all key assumptions and concepts. Derive the coefficient of pressure for the cylinder surface. You may follow the conformal mapping approach outlined in lecture, or summarize the approach given in Anderson’s Fundamentals of Flight (Chapter 3). You only need to show key steps. Routine algebraic manipulations can be omitted and/or summarized in words.
+\begin{equation}
+    \boxed{C_p = 1 - \frac{V^2}{V_{\infty}^2} = 1 - 4\oldsin^2\theta}
+\end{equation}
 
 \section{Experimental Apparatus and Procedures} \label{sec:procedures}
 
 \subsection{Experimental Apparatus} \label{sec:procedures/apparatus}
 
+% FIXME: describe tunnel and cylinder
+\lipsum[1-3]
+
 \subsection{Operating Technique} \label{sec:procedures/technique}
+
+% FIXME: describe procedure
+\lipsum[1-2]
 
 \section{Results} \label{sec:results}
 
 \subsection{Operating Conditions} \label{sec:results/conditions}
 
-% TODO: tab: ambient condition measurements
-% A tabulation of operating conditions for the experiment, including ambient room temperature, and pressure.
+\begin{table}[H]
+    \centering
+    \caption{Ambient Room Conditions during Experiment}
+    \begin{tabular}{|l|c|c|}
+        \hline
+        Quantity                & Value              & Uncertainty                          \\ \hline \hline
+        Room Temperature, \(T\) & \qty{25}{\c}       & \(\pm \qty{0.5}{\c}\)                \\
+        Room Pressure, \(P\)    & \qty{1009.0}{\hecto\Pa} & \( \pm \qty{0.05}{\hecto\Pa} \) \\ \hline
+    \end{tabular}
+    \label{tab:ambient-conditions}
+\end{table}
 
-% TODO: calc: ambient air density
-% Calculation of ambient air density from room temperature and pressure.
+The density of air (\(\rho\)) can be calculated using the Ideal Gas Law:
+\begin{equation}
+    \rho = \frac{P}{R T}
+\end{equation}
+where:
+\begin{itemize}
+    \item \(P\) is the absolute pressure (in SI units: Pascals \unit{\Pa})
+    \item \(T\) is the absolute temperature (in Kelvin \unit{\K})
+    \item \(R\) is the specific gas constant for dry air, \(R = \qty{287.05}{\J\per\kg\per\K}\)
+\end{itemize}
+
+Given measurements:
+\begin{align}
+    P      &= \qty{1009.0}{\hecto\Pa} = \qty{100900}{\Pa} \\
+    T      &= \qty{25}{\C} = 25 + 273.15 = \qty{298.15}{\K} \\
+    R      &= \qty{287.05}{\J\per\kg\per\K}
+\end{align}
+
+\begin{equation}
+    \rho = \frac{\qty{100900}{\Pa}}{\qty{287.05}{\J\per\kg\per\K}} \times \qty{298.15}{\K}
+\end{equation}
+
+Calculate:
+\begin{align}
+    \rho &= \frac{100900}{287.05 \times 298.15} \\
+         &= \frac{100900}{85542.5} \\
+         &\approx \qty{1.18}{\kg\per\m\cubed}
+\end{align}
+
+Thus, \textbf{the ambient air density during the experiment is}:
+\begin{equation}
+    \boxed{\rho = \qty{1.18}{\kg\per\m\cubed}}
+\end{equation}
 
 \subsection{Measurements} \label{sec:results/measurements}
 
-% TODO: tab: pressure measurements
-% A table of the measured relative pressure, \(P-P_{\infty}\), and the corresponding pressure coefficient, \(C_p=2\left(P-P_{\infty}\right) /\left(\rho U_{\infty}^2\right)\), versus angular position (P versus \(\left.\theta\right)\). The quantity \(P-P_{\infty}\) is the pressure reading on the surface of the cylinder relative to the freestream pressure upstream of the cylinder. This quantity is directly given by the differential pressure transducer. \(U_{\infty}\) is the mean freestream velocity, which is obtained using the pitot-static tube (see next item).
+\begin{table}[H]
+    \centering
+    \caption{Measured Relative Presssure, Pressure Coefficient, and Pressure vs. Angle of Attack}
+    \mintinline{bash}{./outputs/text/pressure_vs_theta.csv} \\
+    \begin{tabular}[c]{|r|l|c|c|c|}\hline
+        & \( \theta \, \left[\unit{\deg}\right] \) & \( P-P_{\infty} \, \left[\unit{\Pa}\right] \) & \( C_{P} \) & \( P \, \left[\unit{\Pa}\right] \) \\ \hline \hline
+        \csvreader[late after line = \\ \hline]{../outputs/text/pressure_vs_theta.csv}{}{
+            {\setpadnum{2}\tt\scriptsize\padnum{\thecsvrow}} &
+            \csvcoli &
+            \csvcolii &
+            \csvcoliii &
+            \csvcoliv
+        }
+    \end{tabular}
+    \label{tab:measurements/pressure}
+\end{table}
 
 \subsection{Quantities of Interest} \label{sec:results/quantities}
 
-% TODO: calc: mean wind tunnel velocity
-% Calculation of the mean wind tunnel velocity used for the experiment based on the pressure reading from the pitot-static tube in the wind tunnel.
+\subsubsection{Mean Wind Tunnel Velocity} \label{sec:results/quantities/mean_velocity}
 
-% TODO: fig: pressure coefficient vs angle of attack
-% A plot of \(C_p\) vs \(\theta\) from the experiment, plotted simultaneous (on the same graph) with the pressure coefficient that is given by inviscid theory. Characterize any observed discrepancies, and explain the cause of these differences. How does your plot compare with published results?
+% FIXME: calculate mean wind tunnel velocity
+% TODO: Calculation of the mean wind tunnel velocity used for the experiment based on the pressure reading from the pitot-static tube in the wind tunnel.\(U_{\infty}\) is the mean freestream velocity, which is obtained using the pitot-static tube.
 
-% TODO: calc: drag coefficient
-% Compute coefficient of drag using measured surface pressure. Does this agree with theoretical value? If not, explain why.
+The mean wind tunnel velocity, \( U_{\infty} \)---being the same as the freestream velocity---can be obtained directly from the pitot-static pressure readings.
+
+\subsubsection{Coefficient of Pressure} \label{sec:results/quantities/Cp}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.65\linewidth]{../outputs/figures/Cp_vs_theta.png}
+    \caption{Pressure Coefficient \( C_{p} \) vs. Angle of Attack \( \theta \)}
+    \label{fig:results/Cp}
+\end{figure}
+
+\subsubsection{Coefficient of Drag} \label{sec:results/quantities/Cd}
+
+The theoretically predicted drag coefficient for a cylinder in inviscid flow is zero. This result arises because, under the assumption of inviscid (frictionless) flow, the skin friction coefficient \(c_f\) is zero, and the symmetry of both the cylinder and the flow ensures that the pressure distribution is identical on the front and back surfaces. As a result, the opposing pressure forces cancel each other, leading to no net drag. This phenomenon is known as \textbf{D'Alembert's Paradox}.
+
+Performing numerical analysis using the equations from the lecture:
+
+\begin{align}
+    C_d = \frac{D}{\rho_{\infty}} \\
+    D = R \int_{0}^{2 \pi} P \cos{\theta}d\theta
+\end{align}
+
+Due to cylinder symmetry:
+\begin{equation}
+    D = R \int_{0}^{2 \pi} P \cos{\theta}d\theta = 2 R \int_{0}^{\pi} P \cos{\theta}d\theta
+\end{equation}
+
+To numerically calculate the integral, we used the trapezoidal approximation, and the results of \(C_d\) vs. \(\theta\) are shown in the figure below:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.65\linewidth]{../outputs/figures/Cd_vs_theta.png}
+    \caption{Drag Coefficient \( C_{d} \) vs. Angle of Attack \( \theta \)}
+    \label{fig:results/Cd}
+\end{figure}
 
 \section{Analysis and Discussion} \label{sec:analysis}
 
 \subsection{Data Conversion} \label{sec:analysis/conversion}
 
-% TODO: explanation of conversion method for pressure reading to actual values
+% FIXME: explain conversion method for pressure reading to actual values
+\lipsum[1-3]
 
 \subsection{Interpretation} \label{sec:analysis/interpretation}
 
-% TODO: compare with expected values based on theory
-% pressure & drag coefficients
+As can be seen in \ref{fig:results/Cp}, the actual coefficient of drag is not zero. This is due to the fact that in real world air is viscous and it's coefficient of friction \(c_f \neq 0\). This combined with potential flow detachment leads to a non-zero drag coefficient.
+
+% FIXME: compare Cp with expected values based on theory
+% TODO: Characterize any observed discrepancies, and explain the cause of these differences. How does your plot compare with published results?
+With regard to the coefficient of pressure...
 
 \section{Summary and Conclusions} \label{sec:summary}
 
+% FIXME: summarize findings
+\lipsum[1-3]
+
 \section{References} \label{sec:references}
 
-\nocite{*}
-\printbibliography
+\printbibliography[heading=none]
 
 \section{Appendices} \label{sec:appendices}
 
 \subsection{Data} \label{sec:appendices/data}
 
 \begin{table}[H]
-        \begin{center}
-                \mintinline{bash}{./data/pressure_vs_alpha.csv} \\
-                \begin{tabular}[c]{|r|l|c|c|c|}\hline
-                        & \( \alpha \, \left[\unit{\deg}\right] \) & \( \mathrm{P}_{\infty} \, \left[\unit{\cm}\right] \) & \( \mathrm{P}_{0} \, \left[\unit{\cm}\right] \) & \( \mathrm{P} \, \left[\unit{\cm}\right] \) \\ \hline \hline
-                        \csvreader[late after line = \\ \hline]{../data/pressure_vs_alpha.csv}{}{
-                                {\setpadnum{2}\tt\scriptsize\padnum{\thecsvrow}} &
-                                \csvcoli &
-                                \csvcolii &
-                                \csvcoliii &
-                                \csvcoliv
-                        }
-                \end{tabular}
-        \end{center}
-        \caption{Raw Measurements of Pressure Taps vs. Angle of Attack}
-        \label{tab:data/pressure}
+    \centering
+    \caption{Raw Measurements of Pressure Taps vs. Angle of Attack}
+    \mintinline{bash}{./data/pressure_vs_theta.csv} \\
+    \begin{tabular}[c]{|r|l|c|c|c|}\hline
+        & \( \theta \, \left[\unit{\deg}\right] \) & \( P_{\infty} \, \left[\unit{\cm}\right] \) & \( P_{0} \, \left[\unit{\cm}\right] \) & \( P \, \left[\unit{\cm}\right] \) \\ \hline \hline
+        \csvreader[late after line = \\ \hline]{../data/pressure_vs_theta.csv}{}{
+            {\setpadnum{2}\tt\scriptsize\padnum{\thecsvrow}} &
+            \csvcoli &
+            \csvcolii &
+            \csvcoliii &
+            \csvcoliv
+        }
+    \end{tabular}
+    \label{tab:data/pressure}
 \end{table}
 
 \subsection{Code} \label{sec:appendices/code}
+
+For the sake of brevity, only the code files that are key to the analysis are included below. However, in the spirit of completeness, the repository containing the complete data, source code, and notes for this report can be found at \href{https://www.github.com/vaisriv/enae464-lab01}{github:vaisriv/enae464-lab01}.
+
+\begin{codeblock}
+    \centering
+    \caption{Index File}
+    \mintinline{bash}{./src/index.py}
+    \inputminted{python}{../src/index.py}
+    \label{lst:code/index}
+\end{codeblock}
 
 \end{document}
