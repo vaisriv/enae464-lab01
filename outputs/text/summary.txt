@@ -1,0 +1,2 @@
+Ambient conditions:  P_amb   = 100900.0 Pa  T_amb   = 298.15 K  rho_air = 1.18 kg/m^3
+Derived quantities (averages over all rows):  q_inf   = 755.71 Pa  U_inf   = 35.79 m/s
