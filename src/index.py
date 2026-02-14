@@ -11,12 +11,15 @@ def main():
     RHO_AIR   = 1.18     # Air density [kg/m^3]
     RHO_WATER = 998.0    # Water density [kg/m^3]
     G         = 9.81     # Gravitational acceleration [m/s^2]
-    RADIUS    = 0.635e-2 # Cylinder Radius [m]
 
     # ─── File paths ──────────────────────────────────────────────────────────────
     INPUT_CSV  = "./data/pressure_vs_theta.csv"
     OUTPUT_CSV = "./outputs/text/pressure_vs_theta.csv"
     OUTPUT_FILE = "./outputs/text/summary.txt"
+
+    # ─── Ensure figures output directory exists ──────────────────────────────────
+    FIG_DIR = os.path.join("outputs", "figures")
+    os.makedirs(FIG_DIR, exist_ok=True)
 
     # ─── Read CSV ────────────────────────────────────────────────────────────────
     theta_deg_list = []
@@ -77,9 +80,88 @@ def main():
         U_inf_list.append(U_inf)
         Cp_list.append(Cp)
 
-    # TODO: fig: pressure coefficient vs angle of attack
-    # A plot of \(C_p\) vs \(\theta\) from the experiment, plotted simultaneous (on the same graph) with the pressure coefficient that is given by inviscid theory.
+    # ─── Convert lists to numpy arrays for convenience ──────────────────────────
+    theta_deg = np.array(theta_deg_list)
+    theta_rad = np.deg2rad(theta_deg)
+    Cp_exp    = np.array(Cp_list)
+    dP_exp    = np.array(delta_P_list)
+    q_inf_arr = np.array(q_inf_list)
 
+    # ─── Inviscid (potential flow) theory for a cylinder ─────────────────────────
+    # Cp_inviscid = 1 - 4 sin^2(theta)
+    theta_theory = np.linspace(0, 180, 500)
+    theta_theory_rad = np.deg2rad(theta_theory)
+    Cp_inviscid = 1.0 - 4.0 * np.sin(theta_theory_rad) ** 2
+
+    # ─── Figure 1: Cp vs theta ──────────────────────────────────────────────────
+    fig1, ax1 = plt.subplots(figsize=(9, 5))
+    ax1.plot(theta_deg, Cp_exp, 'o', markersize=5, label='Experimental')
+    ax1.plot(theta_theory, Cp_inviscid, '-', linewidth=1.5, label='Inviscid theory ($1 - 4\\sin^2\\theta$)')
+    ax1.set_xlabel(r'$\theta$ [deg]')
+    ax1.set_ylabel(r'$C_p$')
+    ax1.set_title(r'Pressure Coefficient $C_p$ vs Angular Position $\theta$')
+    ax1.legend()
+    ax1.grid(True, alpha=0.3)
+    fig1.tight_layout()
+    fig1.savefig(os.path.join(FIG_DIR, "Cp_vs_theta.png"), dpi=300)
+    print(f"Saved {os.path.join(FIG_DIR, 'Cp_vs_theta.png')}")
+
+    # ─── Figure 2: Cd vs theta (cumulative drag coefficient) ────────────────────
+    #
+    # The drag force on the cylinder (per unit span) is:
+    #     D = R ∫₀²π P·cos(θ) dθ
+    #
+    # We define the drag coefficient as:
+    #     C_d = D / (q_inf · d)  =  D / (q_inf · 2R)
+    #
+    # Substituting and non-dimensionalising with Cp = (P - P_inf) / q_inf :
+    #     C_d = (1/2) ∫₀²π Cp · cos(θ) dθ
+    #
+    # (The P_inf contribution integrates to zero over a closed surface.)
+    #
+    # We approximate the integral cumulatively using the trapezoidal rule so we
+    # can plot C_d as a function of the upper integration limit θ.
+
+    # Sort by angle to ensure proper integration order
+    sort_idx  = np.argsort(theta_deg)
+    theta_sorted     = theta_deg[sort_idx]
+    theta_sorted_rad = theta_rad[sort_idx]
+    Cp_sorted        = Cp_exp[sort_idx]
+
+    # Integrand: Cp(θ) · cos(θ)
+    integrand_exp = Cp_sorted * np.cos(theta_sorted_rad)
+
+    # Cumulative trapezoidal integration: (1/2) ∫₀^θ Cp·cos(θ') dθ'
+    Cd_cumulative_exp = np.zeros(len(theta_sorted))
+    for j in range(1, len(theta_sorted)):
+        dtheta = theta_sorted_rad[j] - theta_sorted_rad[j - 1]
+        Cd_cumulative_exp[j] = Cd_cumulative_exp[j - 1] + 0.5 * (integrand_exp[j] + integrand_exp[j - 1]) * dtheta
+    Cd_cumulative_exp *= 0.5  # the 1/2 prefactor from C_d = (1/2) ∫ Cp cos(θ) dθ
+
+    # Inviscid theory: Cp_inv = 1 - 4sin²θ  →  Cd = 0 (d'Alembert's paradox)
+    # Cumulative for plotting:
+    integrand_inv = (1.0 - 4.0 * np.sin(theta_theory_rad) ** 2) * np.cos(theta_theory_rad)
+    Cd_cumulative_inv = np.zeros(len(theta_theory))
+    for j in range(1, len(theta_theory)):
+        dtheta = theta_theory_rad[j] - theta_theory_rad[j - 1]
+        Cd_cumulative_inv[j] = Cd_cumulative_inv[j - 1] + 0.5 * (integrand_inv[j] + integrand_inv[j - 1]) * dtheta
+    Cd_cumulative_inv *= 0.5
+
+    fig2, ax2 = plt.subplots(figsize=(9, 5))
+    ax2.plot(theta_sorted, Cd_cumulative_exp, 'o-', markersize=4, linewidth=1, label='Experimental (trapezoidal)')
+    ax2.plot(theta_theory, Cd_cumulative_inv, '-', linewidth=1.5, label="Inviscid theory (d'Alembert: $C_d = 0$)")
+    ax2.set_xlabel(r'$\theta$ [deg]')
+    ax2.set_ylabel(r'$C_d(\theta)$  (cumulative)')
+    ax2.set_title(r'Cumulative Drag Coefficient $C_d$ vs Angular Position $\theta$')
+    ax2.legend()
+    ax2.grid(True, alpha=0.3)
+    fig2.tight_layout()
+    fig2.savefig(os.path.join(FIG_DIR, "Cd_vs_theta.png"), dpi=300)
+    print(f"Saved {os.path.join(FIG_DIR, 'Cd_vs_theta.png')}")
+
+    # Print final Cd value (full integral over 0 to max angle)
+    print(f"\nExperimental C_d (integrated 0 to {theta_sorted[-1]:.0f} deg): {Cd_cumulative_exp[-1]:.4f}")
+    print(f"Inviscid theory C_d (integrated 0 to 360 deg):       {Cd_cumulative_inv[-1]:.6f}  (≈ 0, d'Alembert's paradox)")
 
     # ─── Summary statistics ─────────────────────────────────────────────────────
     q_avg   = sum(q_inf_list) / N
